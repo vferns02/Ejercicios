@@ -13,6 +13,7 @@ function creaUsuario(name){
 }
 //creamos el closure
 var user = creaUsuario('tesla');
+
 //usamos el closure
 user.login(); 
 user.setName('neo');
