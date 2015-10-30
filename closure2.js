@@ -14,8 +14,9 @@ function creaUsuario(name){
 //creamos el closure
 var user = creaUsuario('tesla');
 //usamos el closure
-user.login();
+user.login(); 
 user.setName('neo');
+
 //user.logout();
-setTimeout(user.logout,1000);
+setTimeout(user.logout,1000); 
 //utilizando closures podemos semejar la utilizacion de los this
