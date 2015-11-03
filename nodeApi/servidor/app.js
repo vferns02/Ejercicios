@@ -22,15 +22,46 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./lib/db.js')
+app.use(function(req,res,next){
+  console.log('Nos llama: ' ,req.headers.host);
+
+  //pedir a express un dato de una cabecera (headers)
+  var esAndroid = req.get('User-Agent').match(/Android/i);
+  if (esAndroid){
+      console.log(req.get('User-Agent'));
+  }
+
+  req.Android = esAndroid;
+  next(); 
+});
+
+
+//var dbMysql = require('./lib/dbMysql.js')
+var dbMongo = require('./lib/dbMongo.js'); //no es necesario asignarlo a una variable
+require ('./models/Agente.js'); //no es necesario asignarlo a una variable
+
+
 
 app.use('/', require('./routes/index'));
 app.use('/users',require('./routes/users'));
 app.use('/mysql',require('./routes/mysql'));
+app.use('/agentes',require('./routes/agentes'));
 
+
+//API Version 1
+app.use('/apiv1/agentes', require('./routes/apiv1/agentes'));
 
 //Añadimos un nuevo controlador para dependencias
 app.use('/dependencies',require('./routes/dependencies'));
+
+
+//ZOna de administración
+
+  //con basic auth
+app.use('/admin', require ('./routes/admin'));
+
+  //con token
+app.use('/apiv1/admin2', require ('./routes/apiv1/admin2'));
 
 
 // catch 404 and forward to error handler
